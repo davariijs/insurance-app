@@ -1,0 +1,1 @@
+export default function InsuranceFormPage() { return <div>Form Page</div>; }

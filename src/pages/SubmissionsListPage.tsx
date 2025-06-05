@@ -1,0 +1,1 @@
+export default function SubmissionsListPage() { return <div>Submissions Page</div>; }

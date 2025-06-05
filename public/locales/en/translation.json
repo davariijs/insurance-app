@@ -1,0 +1,29 @@
+{
+  "brand_name": "Insurance",
+  "nav_form": "New Application",
+  "nav_submissions": "My Submissions",
+  "toggle_language": "فارسی",
+  "page_title_form": "Smart Insurance Application",
+  "page_title_submissions": "My Submitted Applications",
+  "form": {
+    "submit_button": "Submit Application",
+    "required_field": "{{field}} is required.",
+    "invalid_number": "{{field}} must be a number."
+  },
+  "error": {
+    "form_load_failed_title": "Failed to Load Form",
+    "form_load_failed_desc": "Sorry, we couldn't load the form structure. Please try again later.",
+    "submissions_load_failed_title": "Could Not Fetch Submissions",
+    "submissions_load_failed_desc": "Please check your connection and try again."
+  },
+  "notification": {
+    "submit_success_title": "Submission Successful",
+    "submit_success_desc": "Your application has been received.",
+    "submit_error_title": "Submission Failed",
+    "submit_error_desc": "An unexpected error occurred. Please try again."
+  },
+  "table": {
+    "customize_columns": "Customize Columns",
+    "empty_text": "No submissions found. Start by filling out a new application!"
+  }
+}

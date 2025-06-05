@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd';
+import { useTheme } from './context/ThemeContext';
+import { lightTheme, darkTheme } from './config/antdTheme';
+import { AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import MainLayout from './components/layout/MainLayout';
+import InsuranceFormPage from './pages/InsuranceFormPage';
+import SubmissionsListPage from './pages/SubmissionsListPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { theme } = useTheme();
+  const { i18n } = useTranslation();
+  const location = useLocation();
+
+  const currentTheme = theme === 'light' ? lightTheme : darkTheme;
+  if (theme === 'dark') {
+    currentTheme.algorithm = antdTheme.darkAlgorithm;
+  }
+  
+  useEffect(() => {
+    document.body.dir = i18n.dir();
+  }, [i18n, i18n.language]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ConfigProvider theme={currentTheme}>
+      <AntdApp> 
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<InsuranceFormPage />} />
+              <Route path="submissions" element={<SubmissionsListPage />} />
+              {/* <Route path="*" element={<NotFoundPage />} /> */}
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      </AntdApp>
+    </ConfigProvider>
+  );
 }
 
-export default App
+export default App;
