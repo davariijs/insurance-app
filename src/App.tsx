@@ -1,4 +1,3 @@
-// src/App.tsx
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd';
