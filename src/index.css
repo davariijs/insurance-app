@@ -7,7 +7,12 @@
 
 body {
   margin: 0;
+  background-color: #F8F9FA;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  background-color: #1C1C1E;
 }
 
 *, *::before, *::after {
@@ -42,19 +47,6 @@ body {
 
 .table-search-input {
   width: 300px;
-}
-
-.ant-input-search {
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.ant-input-search:focus-within {
-  border-color: var(--ant-primary-color) !important;
-  box-shadow: 0 0 0 2px var(--ant-primary-color-outline) !important;
-}
-
-.ant-input-search:focus-within .ant-input:focus {
-  box-shadow: none !important;
 }
 
 .ant-layout-content {
