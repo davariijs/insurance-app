@@ -52,7 +52,7 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, fiel
   
   if (field.type === 'group') {
     return (
-      <div style={{ border: '1px solid #f0f0f0', padding: '0 16px 16px', borderRadius: 8, marginBottom: 16 }}>
+      <div style={{ border: '1px solid #f0f0f0', padding: '16px', borderRadius: 8, marginBottom: 16 }}>
         <Divider orientation="left" style={{ marginTop: 0 }}>{field.label}</Divider>
         {field.fields?.map(groupField => (
           <DynamicFieldRenderer key={groupField.id} field={groupField} fieldNamePrefix={fieldName} />
@@ -62,9 +62,12 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, fiel
   }
 
   const getNormalizedOptions = (): FormFieldOption[] => {
-    if (isDynamicField) return dynamicOptions;
-    if (!field.options) return [];
-    return field.options.map(opt => (typeof opt === 'string' ? { label: opt, value: opt } : opt));
+    const optionsSource = isDynamicField ? dynamicOptions : field.options;
+    if (!optionsSource) return [];
+    
+    return optionsSource.map(opt => 
+      typeof opt === 'string' ? { label: opt, value: opt } : opt
+    );
   };
   
   const renderInputComponent = (controllerProps: ControllerRenderProps<FieldValues, string>) => {

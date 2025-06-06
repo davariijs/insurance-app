@@ -1,10 +1,9 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd';
 import { useTheme } from './context/ThemeContext';
 import { lightTheme, darkTheme } from './config/antdTheme';
 import { AnimatePresence } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import MainLayout from './components/layout/MainLayout';
 import CustomSpinner from './components/common/CustomSpinner';
 
@@ -20,7 +19,6 @@ const PageLoader: React.FC = () => (
 
 function App() {
   const { theme } = useTheme();
-  const { i18n } = useTranslation();
   const location = useLocation();
 
   const currentTheme = theme === 'light' ? lightTheme : darkTheme;
@@ -28,9 +26,6 @@ function App() {
     currentTheme.algorithm = antdTheme.darkAlgorithm;
   }
   
-  useEffect(() => {
-    document.body.dir = i18n.dir();
-  }, [i18n, i18n.language]);
 
   return (
     <ConfigProvider theme={currentTheme}>

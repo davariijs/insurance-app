@@ -4,10 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMemo, useEffect, useState } from 'react';
 import { getAllForms, submitForm, type SubmitFormResponse } from '../services/formService';
 import { createFormSchema } from '../lib/zodSchemas';
-import { useTranslation } from 'react-i18next';
+
 
 export const useInsuranceForm = () => {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
 
@@ -24,8 +23,8 @@ export const useInsuranceForm = () => {
 
   const formSchema = useMemo(() => {
     const fields = selectedFormStructure?.fields ?? [];
-    return createFormSchema(fields, t);
-  }, [selectedFormStructure, t]);
+    return createFormSchema(fields);
+  }, [selectedFormStructure]);
 
   const methods = useForm<FieldValues>({
     resolver: zodResolver(formSchema),

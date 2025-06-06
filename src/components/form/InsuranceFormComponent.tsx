@@ -3,6 +3,7 @@ import { FormProvider } from 'react-hook-form';
 import type { UseFormReturn, FieldValues, SubmitHandler } from 'react-hook-form';
 import type { FormStructure } from '../../types';
 import DynamicFieldRenderer from './DynamicFieldRenderer';
+import { SortableField } from './SortableField';
 
 interface InsuranceFormComponentProps<T extends FieldValues> {
   methods: UseFormReturn<T>;
@@ -21,9 +22,13 @@ const InsuranceFormComponent = <T extends FieldValues>({
     <FormProvider {...methods}>
       <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>
         {formStructure.fields.map((field) => (
-          <DynamicFieldRenderer key={field.id} field={field} />
+          <SortableField key={field.id} id={field.id}>
+            <DynamicFieldRenderer
+              field={field}
+            />
+          </SortableField>
         ))}
-        <Form.Item>
+        <Form.Item style={{display: 'flex', justifyContent: 'center',marginTop: '20px'}}>
           <Button type="primary" htmlType="submit" loading={isSubmitting}>
             Submit Application
           </Button>

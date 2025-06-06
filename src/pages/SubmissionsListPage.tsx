@@ -1,10 +1,8 @@
 import { Card, Typography, Result, Empty } from 'antd';
 import { useSubmissions } from '../hooks/useSubmissions';
 import SubmissionsTable from '../components/submissions/SubmissionsTable';
-import { useTranslation } from 'react-i18next';
 
 const SubmissionsListPage = () => {
-  const { t } = useTranslation();
   const {
     submissionsData,
     columns,
@@ -44,8 +42,8 @@ const SubmissionsListPage = () => {
       return (
         <Result
           status="warning"
-          title={t('error.submissions_load_failed_title')}
-          subTitle={(error as Error)?.message || t('error.submissions_load_failed_desc')}
+          title="Could Not Fetch Submissions"
+          subTitle={(error as Error)?.message || 'Please check your connection and try again.'}
         />
       );
     }
@@ -64,7 +62,7 @@ const SubmissionsListPage = () => {
               onPaginationChange={handlePaginationChange}
               onSearch={setSearchText}
             />
-            <Empty description={t('table.empty_text')} />
+            <Empty description="No submissions found. Start by filling out a new application!" />
           </>
       );
     }
@@ -85,7 +83,10 @@ const SubmissionsListPage = () => {
   };
 
   return (
-    <Card title={<Typography.Title level={3}>{t('page_title_submissions')}</Typography.Title>}>
+    <Card 
+      className="page-card" 
+      title={<Typography.Title level={3}>My Submitted Applications</Typography.Title>}
+    >
       {renderContent()}
     </Card>
   );

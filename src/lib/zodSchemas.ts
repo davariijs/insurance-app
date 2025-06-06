@@ -1,10 +1,9 @@
 import * as z from 'zod';
 import type { FormField } from '../types';
-import type { TFunction } from 'i18next';
 
 type ZodShape = z.ZodRawShape;
 
-const buildRecursiveSchema = (fields: FormField[], t: TFunction): z.ZodType => {
+const buildRecursiveSchema = (fields: FormField[]): z.ZodType => {
   const shape: ZodShape = {};
 
   fields.forEach((field) => {
@@ -13,7 +12,7 @@ const buildRecursiveSchema = (fields: FormField[], t: TFunction): z.ZodType => {
     switch (field.type) {
       case 'group': {
         if (field.fields && field.fields.length > 0) {
-          validator = buildRecursiveSchema(field.fields, t);
+          validator = buildRecursiveSchema(field.fields);
         } else {
           validator = z.object({});
         }
@@ -65,7 +64,7 @@ const buildRecursiveSchema = (fields: FormField[], t: TFunction): z.ZodType => {
 
       if (isVisible && field.required) {
         const value = data[field.id];
-        const requiredError = t('form.required_field', { field: field.label });
+        const requiredError = `${field.label} is required.`;
 
         let isValid = true;
         if (value === null || value === undefined || value === '') {
@@ -104,9 +103,9 @@ const buildRecursiveSchema = (fields: FormField[], t: TFunction): z.ZodType => {
   });
 };
 
-export const createFormSchema = (fields: FormField[], t: TFunction): z.ZodType => {
+export const createFormSchema = (fields: FormField[]): z.ZodType => {
   if (!fields || fields.length === 0) {
     return z.object({});
   }
-  return buildRecursiveSchema(fields, t);
+  return buildRecursiveSchema(fields);
 };
