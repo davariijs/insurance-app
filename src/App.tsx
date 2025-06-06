@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd';
-import { useTheme } from './context/ThemeContext';
+import { useTheme } from './context/useTheme';
 import { lightTheme, darkTheme } from './config/antdTheme';
 import { AnimatePresence } from 'framer-motion';
 import MainLayout from './components/layout/MainLayout';
@@ -12,7 +12,14 @@ const SubmissionsListPage = React.lazy(() => import('./pages/SubmissionsListPage
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 const PageLoader: React.FC = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 200px)' }}>
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 'calc(100vh - 200px)',
+    }}
+  >
     <CustomSpinner />
   </div>
 );
@@ -25,7 +32,6 @@ function App() {
   if (theme === 'dark') {
     currentTheme.algorithm = antdTheme.darkAlgorithm;
   }
-  
 
   return (
     <ConfigProvider theme={currentTheme}>

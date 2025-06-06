@@ -7,17 +7,23 @@
 
 body {
   margin: 0;
-  background-color: #F8F9FA;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #f8f9fa;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 html.dark body {
-  background-color: #1C1C1E;
+  background-color: #1c1c1e;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
 }
 
 .main-header {
@@ -42,7 +48,7 @@ html.dark body {
   align-items: center;
   margin-bottom: 16px;
   flex-wrap: wrap;
-  gap: 16px; 
+  gap: 16px;
 }
 
 .table-search-input {
@@ -50,35 +56,35 @@ html.dark body {
 }
 
 .ant-layout-content {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-  }
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
 
-  .ant-btn-color-primary{
-    box-shadow: none !important;
-  }
+.ant-btn-color-primary {
+  box-shadow: none !important;
+}
 
 @media (max-width: 678px) {
   .ant-layout-content {
     padding-left: 16px !important;
     padding-right: 16px !important;
   }
-  .ant-layout-header{
+  .ant-layout-header {
     padding: 0 16px !important;
   }
-  .ant-card-head-title h3{
-      text-align: center !important;
-    }
+  .ant-card-head-title h3 {
+    text-align: center !important;
+  }
 
   .page-card .ant-card-head .ant-card-head-wrapper .ant-card-head-title {
     width: 100%;
-    text-align: center
+    text-align: center;
   }
 }
 
 @media (max-width: 659px) {
   .table-controls-wrapper {
-    flex-direction: column; 
+    flex-direction: column;
     align-items: stretch;
   }
 
@@ -86,28 +92,26 @@ html.dark body {
     width: 100%;
   }
 
-
   .ant-table-pagination.ant-pagination {
     display: flex;
     justify-content: center;
   }
 }
 
-
 @media (max-width: 578px) {
   .ant-table-pagination.ant-pagination {
     .ant-pagination-prev,
     .ant-pagination-next,
     .ant-pagination-item {
-      display: inline-block !important; 
+      display: inline-block !important;
     }
   }
   .ant-pagination-total-text {
-      display: none !important;
-    }
-    .ant-pagination-options {
-      display: block !important;
-    }
+    display: none !important;
+  }
+  .ant-pagination-options {
+    display: block !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -133,7 +137,6 @@ html.dark body {
     order: 2;
   }
 }
-
 
 @media (max-width: 360px) {
   .ant-pagination-options {
