@@ -80,7 +80,7 @@ const InsuranceFormPage = () => {
         description: 'Your application has been received.',
         duration: 2,
         onClose: () => {
-          navigate('/submissions');
+          navigate('/');
         },
       });
     }
