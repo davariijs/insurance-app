@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
-import { Table, Dropdown, Button, Checkbox, Space, Input, type TableProps } from 'antd';
+import { Table, Dropdown, Button, Checkbox, Input, type TableProps } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
 import { type Submission } from '../../types';
 
 interface SubmissionsTableProps {
@@ -27,7 +26,6 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
   onPaginationChange,
   onSearch,
 }) => {
-  const { t } = useTranslation();
 
   const menuItems = useMemo(() => {
     return allColumnNames.map(name => ({
@@ -52,20 +50,21 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
 
   return (
     <>
-      <Space style={{ marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
+      <div className="table-controls-wrapper">
         <Input.Search
           placeholder="Search in table..."
           onSearch={onSearch}
           onChange={(e) => onSearch(e.target.value)}
           allowClear
-          style={{ width: 300 }}
+          size="large"
+          className="table-search-input"
         />
         <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }} trigger={['click']}>
-          <Button>
-            {t('table.customize_columns')} <DownOutlined />
+          <Button size="large">
+            Customize columns <DownOutlined />
           </Button>
         </Dropdown>
-      </Space>
+      </div>
       <Table<Submission>
         loading={isLoading}
         columns={columns}
