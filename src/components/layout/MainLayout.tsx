@@ -1,6 +1,6 @@
 import { Layout, Menu, Space, Switch } from 'antd';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../context/useTheme';
 import { SunOutlined, MoonOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 
@@ -10,24 +10,20 @@ const MainLayout = () => {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
-
   const menuItems = [
     {
-      key: '/', 
+      key: '/',
       label: <NavLink to="/">Submissions</NavLink>,
     },
     {
       key: '/forms',
       label: <NavLink to="/forms">New Application</NavLink>,
     },
-
   ];
 
-
-return (
+  return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header className="main-header">
-        
         <div className="logo-container" style={{ fontSize: '20px', fontWeight: 'bold' }}>
           <NavLink style={{ color: 'white', textDecoration: 'none' }} to="/">
             Insurance
@@ -38,7 +34,7 @@ return (
           className="main-menu-desk"
           theme="dark"
           mode="horizontal"
-          selectedKeys={[location.pathname]} 
+          selectedKeys={[location.pathname]}
           items={menuItems}
           style={{ flex: 1, minWidth: 0, justifyContent: 'center', borderBottom: 'none' }}
         />
@@ -51,16 +47,15 @@ return (
             checked={theme === 'dark'}
           />
         </Space>
-        
       </Header>
       <div>
-          <Menu
-            className="main-menu-mobile"
-            theme="dark"
-            mode="horizontal"
-            selectedKeys={[location.pathname]} 
-            items={menuItems}
-            style={{ flex: 1, minWidth: 0, justifyContent: 'center', borderBottom: 'none' }}
+        <Menu
+          className="main-menu-mobile"
+          theme="dark"
+          mode="horizontal"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          style={{ flex: 1, minWidth: 0, justifyContent: 'center', borderBottom: 'none' }}
         />
       </div>
 

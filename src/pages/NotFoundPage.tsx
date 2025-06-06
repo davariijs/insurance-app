@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import notFoundImage from '../assets/not-found.webp';
 
-
 const NotFoundPage: React.FC = () => {
   return (
     <motion.div
@@ -20,10 +19,10 @@ const NotFoundPage: React.FC = () => {
     >
       <Result
         icon={
-          <img 
+          <img
             src={notFoundImage}
-            alt="Page Not Found" 
-            style={{ width: '300px', maxWidth: '90%' }} 
+            alt="Page Not Found"
+            style={{ width: '300px', maxWidth: '90%' }}
           />
         }
         title="404 - Page Not Found"

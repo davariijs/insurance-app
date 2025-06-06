@@ -26,15 +26,11 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
   onPaginationChange,
   onSearch,
 }) => {
-
   const menuItems = useMemo(() => {
-    return allColumnNames.map(name => ({
+    return allColumnNames.map((name) => ({
       key: name,
       label: (
-        <Checkbox
-          checked={visibleColumns.includes(name)}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <Checkbox checked={visibleColumns.includes(name)} onClick={(e) => e.stopPropagation()}>
           {name}
         </Checkbox>
       ),
@@ -43,7 +39,7 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
 
   const handleMenuClick = ({ key }: { key: string }) => {
     const newVisibleColumns = visibleColumns.includes(key)
-      ? visibleColumns.filter(c => c !== key)
+      ? visibleColumns.filter((c) => c !== key)
       : [...visibleColumns, key];
     onVisibleColumnsChange(newVisibleColumns);
   };
@@ -72,13 +68,13 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
         rowKey="id"
         scroll={{ x: 'max-content' }}
         pagination={{
-            ...pagination,
-            total: dataSource.length,
-            showSizeChanger: true,
-            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          ...pagination,
+          total: dataSource.length,
+          showSizeChanger: true,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         }}
         onChange={(newPagination) => {
-            onPaginationChange(newPagination.current!, newPagination.pageSize!);
+          onPaginationChange(newPagination.current!, newPagination.pageSize!);
         }}
       />
     </>
