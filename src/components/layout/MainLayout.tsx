@@ -1,45 +1,41 @@
-import { Layout, Menu, Button, Space, Switch } from 'antd';
+import { Layout, Menu, Space, Switch } from 'antd';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { SunOutlined, MoonOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 const { Header, Content, Footer } = Layout;
 
 const MainLayout = () => {
   const { theme, toggleTheme } = useTheme();
-  const { t, i18n } = useTranslation();
   const location = useLocation();
 
-  const changeLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'fa' : 'en';
-    i18n.changeLanguage(newLang);
-  };
 
   const menuItems = [
     {
       key: '/', 
-      label: <NavLink to="/">{t('nav_submissions')}</NavLink>,
+      label: <NavLink to="/">Submissions</NavLink>,
     },
     {
       key: '/forms',
-      label: <NavLink to="/forms">{t('nav_form')}</NavLink>,
+      label: <NavLink to="/forms">New Application</NavLink>,
     },
-    
+
   ];
 
-  return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
 
-        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header className="main-header">
+        
+        <div className="logo-container" style={{ fontSize: '20px', fontWeight: 'bold' }}>
           <NavLink style={{ color: 'white', textDecoration: 'none' }} to="/">
-            Insurance
+            Insurify
           </NavLink>
         </div>
 
         <Menu
+          className="main-menu-desk"
           theme="dark"
           mode="horizontal"
           selectedKeys={[location.pathname]} 
@@ -47,18 +43,26 @@ const MainLayout = () => {
           style={{ flex: 1, minWidth: 0, justifyContent: 'center', borderBottom: 'none' }}
         />
 
-        <Space>
+        <Space className="header-actions">
           <Switch
             checkedChildren={<MoonOutlined />}
             unCheckedChildren={<SunOutlined />}
             onChange={toggleTheme}
             checked={theme === 'dark'}
           />
-          <Button type="primary" onClick={changeLanguage}>
-            {t('toggle_language')}
-          </Button>
         </Space>
+        
       </Header>
+      <div>
+          <Menu
+            className="main-menu-mobile"
+            theme="dark"
+            mode="horizontal"
+            selectedKeys={[location.pathname]} 
+            items={menuItems}
+            style={{ flex: 1, minWidth: 0, justifyContent: 'center', borderBottom: 'none' }}
+        />
+      </div>
 
       <Content style={{ padding: '24px 48px' }}>
         <motion.div
@@ -72,7 +76,7 @@ const MainLayout = () => {
       </Content>
 
       <Footer style={{ textAlign: 'center' }}>
-        Insurance ©{new Date().getFullYear()}
+        Insurify ©{new Date().getFullYear()}
       </Footer>
     </Layout>
   );
