@@ -4,7 +4,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { SunOutlined, MoonOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const MainLayout = () => {
   const { theme, toggleTheme } = useTheme();
@@ -30,7 +30,7 @@ return (
         
         <div className="logo-container" style={{ fontSize: '20px', fontWeight: 'bold' }}>
           <NavLink style={{ color: 'white', textDecoration: 'none' }} to="/">
-            Insurify
+            Insurance
           </NavLink>
         </div>
 
@@ -74,10 +74,6 @@ return (
           <Outlet />
         </motion.div>
       </Content>
-
-      <Footer style={{ textAlign: 'center' }}>
-        Insurify ©{new Date().getFullYear()}
-      </Footer>
     </Layout>
   );
 };
