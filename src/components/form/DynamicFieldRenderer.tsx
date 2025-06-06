@@ -77,7 +77,6 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
           border: `1px solid ${token.colorBorder}`,
           padding: '16px', 
           borderRadius: token.borderRadius,
-          
         }}
       >
         <div 
@@ -183,7 +182,7 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
           validateStatus={error ? 'error' : ''}
           help={error?.message}
           required={field.required}
-          style={{ marginBottom: 0 }}
+          style={{ marginBottom: 0, marginTop: '8px' }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {dragHandleProps && <DragHandle {...dragHandleProps} />}
