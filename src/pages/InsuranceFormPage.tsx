@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spin, Card, Typography, App as AntdApp, Result, Select, Empty } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useInsuranceForm } from '../hooks/useInsuranceForm';
@@ -108,8 +108,8 @@ const InsuranceFormPage = () => {
 
   return (
     <Card
-    className="page-card"
-    title={<Typography.Title level={3}>Smart Insurance Application</Typography.Title>} 
+      className="page-card"
+      title={<Typography.Title level={3}>Smart Insurance Application</Typography.Title>}
     >
       <Select
         placeholder="Please select an insurance type"
@@ -121,7 +121,10 @@ const InsuranceFormPage = () => {
 
       {selectedFormStructure ? (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={formFields.map((f) => f.id)} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={formFields.map((f) => f.id)}
+            strategy={verticalListSortingStrategy}
+          >
             <InsuranceFormComponent
               methods={methods}
               onSubmit={handleFormSubmit}

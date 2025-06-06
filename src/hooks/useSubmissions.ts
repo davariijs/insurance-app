@@ -21,7 +21,7 @@ export const useSubmissions = () => {
   });
 
   const allColumnNames = useMemo(() => data?.columns || [], [data]);
-  
+
   useEffect(() => {
     if (allColumnNames.length > 0) {
       setVisibleColumns(allColumnNames);
@@ -33,22 +33,19 @@ export const useSubmissions = () => {
     if (!searchText) return data.data;
 
     const lowercasedSearchText = searchText.toLowerCase();
-    
-    return data.data.filter(item => 
-      Object.values(item).some(value => 
+
+    return data.data.filter((item) =>
+      Object.values(item).some((value) =>
         String(value).toLowerCase().includes(lowercasedSearchText)
       )
     );
   }, [data?.data, searchText]);
 
-
   const tableColumns = useMemo((): SubmissionTableColumns => {
     if (!allColumnNames.length) return [];
-    
-    const filteredColumns = allColumnNames.filter(colName =>
-      visibleColumns.includes(colName)
-    );
-    
+
+    const filteredColumns = allColumnNames.filter((colName) => visibleColumns.includes(colName));
+
     return filteredColumns.map((colName: keyof SubmissionData) => ({
       title: colName,
       dataIndex: colName,
@@ -68,7 +65,7 @@ export const useSubmissions = () => {
   }, [allColumnNames, visibleColumns]);
 
   return {
-    submissionsData: filteredData, 
+    submissionsData: filteredData,
     columns: tableColumns,
     allColumnNames,
     visibleColumns,

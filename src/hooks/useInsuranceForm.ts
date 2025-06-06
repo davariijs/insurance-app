@@ -11,7 +11,11 @@ export const useInsuranceForm = () => {
   const [selectedFormId, setSelectedFormId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { data: allForms, isLoading: isLoadingForms, isError: isFormsError } = useQuery({
+  const {
+    data: allForms,
+    isLoading: isLoadingForms,
+    isError: isFormsError,
+  } = useQuery({
     queryKey: ['allForms'],
     queryFn: getAllForms,
     staleTime: Infinity,
@@ -19,7 +23,7 @@ export const useInsuranceForm = () => {
 
   const selectedFormStructure = useMemo(() => {
     if (!selectedFormId || !allForms) return null;
-    return allForms.find(form => form.formId === selectedFormId);
+    return allForms.find((form) => form.formId === selectedFormId);
   }, [allForms, selectedFormId]);
 
   const formSchema = useMemo(() => {
@@ -43,8 +47,8 @@ export const useInsuranceForm = () => {
 
   useEffect(() => {
     if (selectedFormId) {
-      setIsSubmitted(false); 
-      
+      setIsSubmitted(false);
+
       try {
         const savedDraft = localStorage.getItem(`form_draft_${selectedFormId}`);
         if (savedDraft) {
@@ -54,15 +58,13 @@ export const useInsuranceForm = () => {
           methods.reset({});
         }
       } catch (error) {
-        console.error("Failed to load or parse draft:", error);
+        console.error('Failed to load or parse draft:', error);
         methods.reset({});
       }
     } else {
       methods.reset({});
     }
   }, [selectedFormId, methods]);
-  
-
 
   const { mutate, ...mutationResult } = useMutation<SubmitFormResponse, Error, FieldValues>({
     mutationFn: (formData) => submitForm(formData, selectedFormId!),
@@ -70,14 +72,14 @@ export const useInsuranceForm = () => {
       if (selectedFormId) {
         localStorage.removeItem(`form_draft_${selectedFormId}`);
       }
-      
+
       queryClient.invalidateQueries({ queryKey: ['submissions'] });
       methods.reset();
-      
+
       setIsSubmitted(true);
     },
     onError: (error) => {
-      console.error("Submission failed:", error);
+      console.error('Submission failed:', error);
     },
   });
 

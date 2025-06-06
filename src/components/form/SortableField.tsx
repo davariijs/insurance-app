@@ -9,14 +9,9 @@ interface SortableFieldProps {
 }
 
 export const SortableField: React.FC<SortableFieldProps> = ({ id, children }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+  });
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -32,9 +27,9 @@ export const SortableField: React.FC<SortableFieldProps> = ({ id, children }) =>
 
   return (
     <div ref={setNodeRef} style={style}>
-      <div 
-        {...attributes} 
-        {...listeners} 
+      <div
+        {...attributes}
+        {...listeners}
         style={{ cursor: 'grab', touchAction: 'none', padding: '8px', color: '#999' }}
       >
         <HolderOutlined />

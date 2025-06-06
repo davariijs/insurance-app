@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Select, Checkbox, InputNumber, DatePicker, Radio, theme } from 'antd';
-import { Controller, useFormContext, type ControllerRenderProps, type FieldValues } from 'react-hook-form';
+import {
+  Controller,
+  useFormContext,
+  type ControllerRenderProps,
+  type FieldValues,
+} from 'react-hook-form';
 import { type FormField, type FormFieldOption } from '../../types';
 import { getDynamicOptions } from '../../services/locationService';
 import dayjs, { type Dayjs } from 'dayjs';
@@ -10,7 +15,7 @@ import { HolderOutlined } from '@ant-design/icons';
 type DragHandleProps = {
   listeners: ReturnType<typeof useSortable>['listeners'];
   attributes: ReturnType<typeof useSortable>['attributes'];
-}
+};
 
 interface DynamicFieldRendererProps {
   field: FormField;
@@ -22,13 +27,23 @@ const DragHandle: React.FC<DragHandleProps> = ({ listeners, attributes }) => (
   <div
     {...attributes}
     {...listeners}
-    style={{ cursor: 'grab', touchAction: 'none', color: '#999', display: 'flex', alignItems: 'center' }}
+    style={{
+      cursor: 'grab',
+      touchAction: 'none',
+      color: '#999',
+      display: 'flex',
+      alignItems: 'center',
+    }}
   >
     <HolderOutlined />
   </div>
 );
 
-const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, dragHandleProps, fieldNamePrefix = '' }) => {
+const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({
+  field,
+  dragHandleProps,
+  fieldNamePrefix = '',
+}) => {
   const { control, watch, setValue } = useFormContext();
   const fieldName = fieldNamePrefix ? `${fieldNamePrefix}.${field.id}` : field.id;
   const { token } = theme.useToken();
@@ -37,9 +52,12 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
   const [isLoadingOptions, setIsLoadingOptions] = useState(false);
 
   const isDynamicField = !!field.dynamicOptions;
-  const dependentFieldName = isDynamicField ? (fieldNamePrefix ? `${fieldNamePrefix}.${field.dynamicOptions!.dependsOn}` : field.dynamicOptions!.dependsOn) : null;
+  const dependentFieldName = isDynamicField
+    ? fieldNamePrefix
+      ? `${fieldNamePrefix}.${field.dynamicOptions!.dependsOn}`
+      : field.dynamicOptions!.dependsOn
+    : null;
   const dependentFieldValue = dependentFieldName ? watch(dependentFieldName) : null;
-
 
   useEffect(() => {
     if (!isDynamicField) return;
@@ -47,62 +65,72 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
     const fetchOptions = async () => {
       setIsLoadingOptions(true);
       setValue(fieldName, null, { shouldValidate: false });
-      
+
       const options = await getDynamicOptions(
         field.dynamicOptions!.endpoint,
         field.dynamicOptions!.dependsOn,
         dependentFieldValue
       );
-      
+
       setDynamicOptions(options);
       setIsLoadingOptions(false);
     };
-    
-    fetchOptions();
 
+    fetchOptions();
   }, [dependentFieldValue, isDynamicField, fieldName, setValue, field.dynamicOptions]);
 
   if (field.visibility) {
-    const visibilityDependentFieldName = fieldNamePrefix ? `${fieldNamePrefix}.${field.visibility.dependsOn}` : field.visibility.dependsOn;
+    const visibilityDependentFieldName = fieldNamePrefix
+      ? `${fieldNamePrefix}.${field.visibility.dependsOn}`
+      : field.visibility.dependsOn;
     const watchedVisibilityValue = watch(visibilityDependentFieldName);
     if (watchedVisibilityValue !== field.visibility.value) {
       return null;
     }
   }
-  
+
   if (field.type === 'group') {
     return (
-      <div 
-        style={{ 
+      <div
+        style={{
           border: `1px solid ${token.colorBorder}`,
-          padding: '16px', 
+          padding: '16px',
           borderRadius: token.borderRadius,
         }}
       >
-        <div 
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
             gap: '8px',
             marginBottom: '12px',
           }}
         >
           {dragHandleProps && (
-            <span 
-              {...dragHandleProps.attributes} 
-              {...dragHandleProps.listeners} 
+            <span
+              {...dragHandleProps.attributes}
+              {...dragHandleProps.listeners}
               style={{ cursor: 'grab', touchAction: 'none', color: token.colorTextDescription }}
             >
               <HolderOutlined />
             </span>
           )}
-          <span style={{ fontWeight: 500, color: token.colorText }}>
-            {field.label}
-          </span>
-          <div style={{ flex: 1, height: '1px', backgroundColor: token.colorBorder, marginLeft: '16px' }}></div>
+          <span style={{ fontWeight: 500, color: token.colorText }}>{field.label}</span>
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              backgroundColor: token.colorBorder,
+              marginLeft: '16px',
+            }}
+          ></div>
         </div>
-        {field.fields?.map(groupField => (
-          <DynamicFieldRenderer key={groupField.id} field={groupField} fieldNamePrefix={fieldName} />
+        {field.fields?.map((groupField) => (
+          <DynamicFieldRenderer
+            key={groupField.id}
+            field={groupField}
+            fieldNamePrefix={fieldName}
+          />
         ))}
       </div>
     );
@@ -111,12 +139,10 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
   const getNormalizedOptions = (): FormFieldOption[] => {
     const optionsSource = isDynamicField ? dynamicOptions : field.options;
     if (!optionsSource) return [];
-    
-    return optionsSource.map(opt => 
-      typeof opt === 'string' ? { label: opt, value: opt } : opt
-    );
+
+    return optionsSource.map((opt) => (typeof opt === 'string' ? { label: opt, value: opt } : opt));
   };
-  
+
   const renderInputComponent = (controllerProps: ControllerRenderProps<FieldValues, string>) => {
     const commonProps = { ...controllerProps, style: { width: '100%' } };
 
@@ -128,7 +154,7 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
       case 'date': {
         const stringValue = controllerProps.value;
         const dayjsValue = stringValue && dayjs(stringValue).isValid() ? dayjs(stringValue) : null;
-        const handleDateChange = (date: Dayjs | null, dateString: string | string[]) => {
+        const handleDateChange = (_: Dayjs | null, dateString: string | string[]) => {
           if (Array.isArray(dateString)) {
             controllerProps.onChange(dateString.length > 0 ? dateString[0] : null);
           } else {
@@ -165,7 +191,11 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
         if (Array.isArray(field.options)) {
           return <Checkbox.Group {...commonProps} options={getNormalizedOptions()} />;
         }
-        return <Checkbox {...commonProps} checked={!!commonProps.value}>{field.label}</Checkbox>;
+        return (
+          <Checkbox {...commonProps} checked={!!commonProps.value}>
+            {field.label}
+          </Checkbox>
+        );
       }
     }
     return null;
@@ -178,7 +208,7 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
       defaultValue={field.defaultValue ?? null}
       render={({ field: controllerField, fieldState: { error } }) => (
         <Form.Item
-          label={(field.type === 'checkbox' && !Array.isArray(field.options)) ? '' : field.label}
+          label={field.type === 'checkbox' && !Array.isArray(field.options) ? '' : field.label}
           validateStatus={error ? 'error' : ''}
           help={error?.message}
           required={field.required}
@@ -186,9 +216,7 @@ const DynamicFieldRenderer: React.FC<DynamicFieldRendererProps> = ({ field, drag
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {dragHandleProps && <DragHandle {...dragHandleProps} />}
-            <div style={{ flex: 1 }}>
-              {renderInputComponent(controllerField)}
-            </div>
+            <div style={{ flex: 1 }}>{renderInputComponent(controllerField)}</div>
           </div>
         </Form.Item>
       )}

@@ -18,7 +18,7 @@ const buildRecursiveSchema = (fields: FormField[]): z.ZodType => {
         }
         break;
       }
-        
+
       case 'text':
       case 'select':
       case 'radio':
@@ -34,13 +34,13 @@ const buildRecursiveSchema = (fields: FormField[]): z.ZodType => {
 
       case 'checkbox': {
         if (Array.isArray(field.options) && field.options.length > 0) {
-          validator = z.array(z.string()).optional(); 
+          validator = z.array(z.string()).optional();
         } else {
-          validator = z.boolean().optional(); 
+          validator = z.boolean().optional();
         }
         break;
       }
-      
+
       default: {
         const _exhaustiveCheck: never = field.type;
         return _exhaustiveCheck;
@@ -50,8 +50,7 @@ const buildRecursiveSchema = (fields: FormField[]): z.ZodType => {
   });
 
   return z.object(shape).superRefine((data, ctx) => {
-    
-    fields.forEach(field => {
+    fields.forEach((field) => {
       if (field.type === 'group') return;
 
       let isVisible = true;
@@ -82,21 +81,33 @@ const buildRecursiveSchema = (fields: FormField[]): z.ZodType => {
             path: [field.id],
           });
         }
-        
+
         if (isValid && field.validation) {
-            if (field.type === 'number' && typeof value === 'number') {
-                if (field.validation.min !== undefined && value < field.validation.min) {
-                    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Minimum value is ${field.validation.min}`, path: [field.id]});
-                }
-                if (field.validation.max !== undefined && value > field.validation.max) {
-                    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Maximum value is ${field.validation.max}`, path: [field.id]});
-                }
+          if (field.type === 'number' && typeof value === 'number') {
+            if (field.validation.min !== undefined && value < field.validation.min) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `Minimum value is ${field.validation.min}`,
+                path: [field.id],
+              });
             }
-            if (field.type === 'text' && typeof value === 'string' && field.validation.pattern) {
-                if (!new RegExp(field.validation.pattern).test(value)) {
-                    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Invalid format`, path: [field.id]});
-                }
+            if (field.validation.max !== undefined && value > field.validation.max) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `Maximum value is ${field.validation.max}`,
+                path: [field.id],
+              });
             }
+          }
+          if (field.type === 'text' && typeof value === 'string' && field.validation.pattern) {
+            if (!new RegExp(field.validation.pattern).test(value)) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `Invalid format`,
+                path: [field.id],
+              });
+            }
+          }
         }
       }
     });
