@@ -13,8 +13,11 @@ export const getAllForms = async (): Promise<FormStructureResponse> => {
   return data;
 };
 
-export const submitForm = async (formData: FieldValues, formId: string): Promise<SubmitFormResponse> => {
-    const payload = { formId, ...formData };
-    const { data } = await apiClient.post<SubmitFormResponse>('/api/insurance/forms/submit', payload);
-    return data;
-}
+export const submitForm = async (
+  formData: FieldValues,
+  formId: string
+): Promise<SubmitFormResponse> => {
+  const payload = { formId, ...formData };
+  const { data } = await apiClient.post<SubmitFormResponse>('/api/insurance/forms/submit', payload);
+  return data;
+};

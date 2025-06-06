@@ -16,14 +16,14 @@ export const getDynamicOptions = async (
   try {
     const params = new URLSearchParams();
     const valueToSend = dependencyValue || DEFAULT_COUNTRY;
-    
+
     params.append(dependencyKey, String(valueToSend));
 
     const url = `${endpoint}?${params.toString()}`;
     const { data } = await apiClient.get<StatesApiResponse>(url);
-    
+
     if (data && Array.isArray(data.states)) {
-      const formattedOptions: FormFieldOption[] = data.states.map(stateName => ({
+      const formattedOptions: FormFieldOption[] = data.states.map((stateName) => ({
         label: stateName,
         value: stateName,
       }));

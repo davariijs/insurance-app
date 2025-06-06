@@ -50,20 +50,20 @@ const SubmissionsListPage = () => {
 
     if (submissionsData.length === 0 && !isLoading) {
       return (
-          <>
-            <SubmissionsTable
-              dataSource={[]}
-              columns={columns}
-              isLoading={false}
-              allColumnNames={allColumnNames}
-              visibleColumns={visibleColumns}
-              onVisibleColumnsChange={setVisibleColumns}
-              pagination={pagination}
-              onPaginationChange={handlePaginationChange}
-              onSearch={setSearchText}
-            />
-            <Empty description="No submissions found. Start by filling out a new application!" />
-          </>
+        <>
+          <SubmissionsTable
+            dataSource={[]}
+            columns={columns}
+            isLoading={false}
+            allColumnNames={allColumnNames}
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={setVisibleColumns}
+            pagination={pagination}
+            onPaginationChange={handlePaginationChange}
+            onSearch={setSearchText}
+          />
+          <Empty description="No submissions found. Start by filling out a new application!" />
+        </>
       );
     }
 
@@ -83,8 +83,8 @@ const SubmissionsListPage = () => {
   };
 
   return (
-    <Card 
-      className="page-card" 
+    <Card
+      className="page-card"
       title={<Typography.Title level={3}>My Submitted Applications</Typography.Title>}
     >
       {renderContent()}
