@@ -1,0 +1,29 @@
+{
+  "brand_name": "بیمه",
+  "nav_form": "درخواست جدید",
+  "nav_submissions": "درخواست‌ها",
+  "toggle_language": "English",
+  "page_title_form": "فرم هوشمند درخواست بیمه",
+  "page_title_submissions": "درخواست‌های ثبت شده",
+  "form": {
+    "submit_button": "ثبت درخواست",
+    "required_field": "وارد کردن {{field}} الزامی است.",
+    "invalid_number": "مقدار {{field}} باید عدد باشد."
+  },
+  "error": {
+    "form_load_failed_title": "خطا در بارگذاری فرم",
+    "form_load_failed_desc": "متاسفانه ساختار فرم بارگذاری نشد. لطفا بعدا تلاش کنید.",
+    "submissions_load_failed_title": "خطا در دریافت لیست",
+    "submissions_load_failed_desc": "لطفا اتصال اینترنت خود را بررسی کرده و مجددا تلاش کنید."
+  },
+  "notification": {
+    "submit_success_title": "ثبت موفق",
+    "submit_success_desc": "درخواست شما با موفقیت دریافت شد.",
+    "submit_error_title": "خطا در ثبت",
+    "submit_error_desc": "یک خطای پیش‌بینی نشده رخ داد. لطفا مجددا تلاش کنید."
+  },
+  "table": {
+    "customize_columns": "شخصی‌سازی ستون‌ها",
+    "empty_text": "هیچ درخواستی یافت نشد. با پر کردن یک فرم جدید شروع کنید!"
+  }
+}

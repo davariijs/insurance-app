@@ -1,35 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd';
+import { useTheme } from './context/ThemeContext';
+import { lightTheme, darkTheme } from './config/antdTheme';
+import { AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import MainLayout from './components/layout/MainLayout';
+import CustomSpinner from './components/common/CustomSpinner';
+
+const InsuranceFormPage = React.lazy(() => import('./pages/InsuranceFormPage'));
+const SubmissionsListPage = React.lazy(() => import('./pages/SubmissionsListPage'));
+const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
+
+const PageLoader: React.FC = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'calc(100vh - 200px)' }}>
+    <CustomSpinner />
+  </div>
+);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { theme } = useTheme();
+  const { i18n } = useTranslation();
+  const location = useLocation();
+
+  const currentTheme = theme === 'light' ? lightTheme : darkTheme;
+  if (theme === 'dark') {
+    currentTheme.algorithm = antdTheme.darkAlgorithm;
+  }
+  
+  useEffect(() => {
+    document.body.dir = i18n.dir();
+  }, [i18n, i18n.language]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ConfigProvider theme={currentTheme}>
+      <AntdApp>
+        <Suspense fallback={<PageLoader />}>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<MainLayout />}>
+                <Route index element={<SubmissionsListPage />} />
+                <Route path="forms" element={<InsuranceFormPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </AnimatePresence>
+        </Suspense>
+      </AntdApp>
+    </ConfigProvider>
+  );
 }
 
-export default App
+export default App;
