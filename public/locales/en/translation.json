@@ -1,10 +1,10 @@
 {
   "brand_name": "Insurance",
   "nav_form": "New Application",
-  "nav_submissions": "My Submissions",
+  "nav_submissions": "Submissions",
   "toggle_language": "فارسی",
   "page_title_form": "Smart Insurance Application",
-  "page_title_submissions": "My Submitted Applications",
+  "page_title_submissions": "Submitted Applications",
   "form": {
     "submit_button": "Submit Application",
     "required_field": "{{field}} is required.",

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Table, Dropdown, Button, Checkbox, Space, type TableProps } from 'antd';
+import { Table, Dropdown, Button, Checkbox, Space, Input, type TableProps } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { type Submission } from '../../types';
@@ -11,6 +11,9 @@ interface SubmissionsTableProps {
   allColumnNames: string[];
   visibleColumns: string[];
   onVisibleColumnsChange: (columns: string[]) => void;
+  pagination: { current: number; pageSize: number };
+  onPaginationChange: (page: number, pageSize: number) => void;
+  onSearch: (text: string) => void;
 }
 
 const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
@@ -20,6 +23,9 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
   allColumnNames,
   visibleColumns,
   onVisibleColumnsChange,
+  pagination,
+  onPaginationChange,
+  onSearch,
 }) => {
   const { t } = useTranslation();
 
@@ -46,7 +52,14 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
 
   return (
     <>
-      <Space style={{ marginBottom: 16, width: '100%', justifyContent: 'flex-end' }}>
+      <Space style={{ marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
+        <Input.Search
+          placeholder="Search in table..."
+          onSearch={onSearch}
+          onChange={(e) => onSearch(e.target.value)}
+          allowClear
+          style={{ width: 300 }}
+        />
         <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }} trigger={['click']}>
           <Button>
             {t('table.customize_columns')} <DownOutlined />
@@ -59,7 +72,15 @@ const SubmissionsTable: React.FC<SubmissionsTableProps> = ({
         dataSource={dataSource}
         rowKey="id"
         scroll={{ x: 'max-content' }}
-        pagination={{ pageSize: 10, showSizeChanger: true }}
+        pagination={{
+            ...pagination,
+            total: dataSource.length,
+            showSizeChanger: true,
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+        }}
+        onChange={(newPagination) => {
+            onPaginationChange(newPagination.current!, newPagination.pageSize!);
+        }}
       />
     </>
   );

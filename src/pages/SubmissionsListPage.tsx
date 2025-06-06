@@ -14,7 +14,14 @@ const SubmissionsListPage = () => {
     isLoading,
     isError,
     error,
+    pagination,
+    setPagination,
+    setSearchText,
   } = useSubmissions();
+
+  const handlePaginationChange = (page: number, pageSize: number) => {
+    setPagination({ current: page, pageSize: pageSize });
+  };
 
   const renderContent = () => {
     if (isLoading) {
@@ -26,6 +33,9 @@ const SubmissionsListPage = () => {
           allColumnNames={[]}
           visibleColumns={[]}
           onVisibleColumnsChange={() => {}}
+          pagination={pagination}
+          onPaginationChange={handlePaginationChange}
+          onSearch={setSearchText}
         />
       );
     }
@@ -40,8 +50,23 @@ const SubmissionsListPage = () => {
       );
     }
 
-    if (submissionsData.length === 0) {
-      return <Empty description={t('table.empty_text')} />;
+    if (submissionsData.length === 0 && !isLoading) {
+      return (
+          <>
+            <SubmissionsTable
+              dataSource={[]}
+              columns={columns}
+              isLoading={false}
+              allColumnNames={allColumnNames}
+              visibleColumns={visibleColumns}
+              onVisibleColumnsChange={setVisibleColumns}
+              pagination={pagination}
+              onPaginationChange={handlePaginationChange}
+              onSearch={setSearchText}
+            />
+            <Empty description={t('table.empty_text')} />
+          </>
+      );
     }
 
     return (
@@ -52,6 +77,9 @@ const SubmissionsListPage = () => {
         allColumnNames={allColumnNames}
         visibleColumns={visibleColumns}
         onVisibleColumnsChange={setVisibleColumns}
+        pagination={pagination}
+        onPaginationChange={handlePaginationChange}
+        onSearch={setSearchText}
       />
     );
   };

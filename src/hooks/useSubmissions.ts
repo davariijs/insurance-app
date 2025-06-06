@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getSubmissions } from '../services/submissionService';
 import { useState, useMemo, useEffect } from 'react';
-import type { TableProps } from 'antd';
-import type { Submission, SubmissionData } from '../types';
+import { type TableProps } from 'antd';
+import { type Submission, type SubmissionData } from '../types';
 
 type SubmissionTableColumns = TableProps<Submission>['columns'];
 
@@ -10,18 +10,37 @@ export const useSubmissions = () => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['submissions'],
     queryFn: getSubmissions,
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
   });
 
   const allColumnNames = useMemo(() => data?.columns || [], [data]);
   
-  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-
   useEffect(() => {
     if (allColumnNames.length > 0) {
       setVisibleColumns(allColumnNames);
     }
   }, [allColumnNames]);
+
+  const filteredData = useMemo(() => {
+    if (!data?.data) return [];
+    if (!searchText) return data.data;
+
+    const lowercasedSearchText = searchText.toLowerCase();
+    
+    return data.data.filter(item => 
+      Object.values(item).some(value => 
+        String(value).toLowerCase().includes(lowercasedSearchText)
+      )
+    );
+  }, [data?.data, searchText]);
+
 
   const tableColumns = useMemo((): SubmissionTableColumns => {
     if (!allColumnNames.length) return [];
@@ -37,7 +56,6 @@ export const useSubmissions = () => {
       sorter: (a: Submission, b: Submission) => {
         const valA = a[colName];
         const valB = b[colName];
-        
         if (typeof valA === 'string' && typeof valB === 'string') {
           return valA.localeCompare(valB);
         }
@@ -50,7 +68,7 @@ export const useSubmissions = () => {
   }, [allColumnNames, visibleColumns]);
 
   return {
-    submissionsData: data?.data || [],
+    submissionsData: filteredData, 
     columns: tableColumns,
     allColumnNames,
     visibleColumns,
@@ -58,5 +76,8 @@ export const useSubmissions = () => {
     isLoading,
     isError,
     error,
+    pagination,
+    setPagination,
+    setSearchText,
   };
 };

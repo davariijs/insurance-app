@@ -1,5 +1,5 @@
 import { Layout, Menu, Button, Space, Switch } from 'antd';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { SunOutlined, MoonOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
@@ -10,29 +10,41 @@ const { Header, Content, Footer } = Layout;
 const MainLayout = () => {
   const { theme, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
+  const location = useLocation();
 
   const changeLanguage = () => {
     const newLang = i18n.language === 'en' ? 'fa' : 'en';
     i18n.changeLanguage(newLang);
   };
 
+  const menuItems = [
+    {
+      key: '/', 
+      label: <NavLink to="/">{t('nav_submissions')}</NavLink>,
+    },
+    {
+      key: '/forms',
+      label: <NavLink to="/forms">{t('nav_form')}</NavLink>,
+    },
+    
+  ];
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
 
-        <div style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>
-          Insurify
+        <div style={{ fontSize: '20px', fontWeight: 'bold' }}>
+          <NavLink style={{ color: 'white', textDecoration: 'none' }} to="/">
+            Insurance
+          </NavLink>
         </div>
 
         <Menu
           theme="dark"
           mode="horizontal"
-          selectable={false}
-          style={{ flex: 1, minWidth: 0, justifyContent: 'center' }}
-          items={[
-            { key: 'form', label: <NavLink to="/">{t('nav_form')}</NavLink> },
-            { key: 'submissions', label: <NavLink to="/submissions">{t('nav_submissions')}</NavLink> },
-          ]}
+          selectedKeys={[location.pathname]} 
+          items={menuItems}
+          style={{ flex: 1, minWidth: 0, justifyContent: 'center', borderBottom: 'none' }}
         />
 
         <Space>

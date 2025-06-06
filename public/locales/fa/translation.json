@@ -1,10 +1,10 @@
 {
   "brand_name": "بیمه",
   "nav_form": "درخواست جدید",
-  "nav_submissions": "درخواست‌های من",
+  "nav_submissions": "درخواست‌ها",
   "toggle_language": "English",
   "page_title_form": "فرم هوشمند درخواست بیمه",
-  "page_title_submissions": "درخواست‌های ثبت شده من",
+  "page_title_submissions": "درخواست‌های ثبت شده",
   "form": {
     "submit_button": "ثبت درخواست",
     "required_field": "وارد کردن {{field}} الزامی است.",

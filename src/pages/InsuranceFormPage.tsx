@@ -31,7 +31,7 @@ const InsuranceFormPage = () => {
         description: t('notification.submit_success_desc'),
         duration: 2,
         onClose: () => {
-          navigate('/submissions');
+          navigate('/');
         },
       });
     }
