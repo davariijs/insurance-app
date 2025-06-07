@@ -53,21 +53,15 @@ describe('SubmissionsListPage', () => {
   it('should filter the table when user types in the search box', async () => {
     renderComponent();
 
-    // منتظر بمان تا جدول رندر شود
     expect(await screen.findByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Jane Smith')).toBeInTheDocument();
 
-    // پیدا کردن باکس جستجو
     const searchInput = screen.getByPlaceholderText('Search in table...');
 
-    // شبیه‌سازی تایپ کردن کاربر
     await userEvent.type(searchInput, 'John');
 
-    // منتظر می‌مانیم تا DOM آپدیت شود
     await waitFor(() => {
-      // حالا "John Doe" باید باشد
       expect(screen.getByText('John Doe')).toBeInTheDocument();
-      // و "Jane Smith" باید از جدول حذف شده باشد
       expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
     });
   });
